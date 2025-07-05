@@ -4,9 +4,9 @@ import Chat from "@/models/Chat";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } } // ✅ CORRECT
 ) {
-  const id = params.id;
+  const { id } = context.params; // ✅ Correct destructuring
 
   if (!id || typeof id !== "string") {
     return NextResponse.json(
