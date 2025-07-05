@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Chat from "@/models/Chat";
 
-// Define context type inline — no special import needed
+// Correct DELETE route handler for dynamic `[id]` in Next.js 14/15
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Record<string, string> }
 ) {
-  const { id } = context.params;
+  const id = params.id;
 
   if (!id || typeof id !== "string") {
     return NextResponse.json(
