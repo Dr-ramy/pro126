@@ -73,7 +73,7 @@ export default function Home() {
                 >
                   <Link href="/login" className="flex items-center gap-2">
                     <FaSignInAlt className="w-5 h-5 sm:w-6 sm:h-6" />
-                    <span>تسجيل الدخول</span>
+                    <span>Sign in</span>
                   </Link>
                 </Button>
               ) : (

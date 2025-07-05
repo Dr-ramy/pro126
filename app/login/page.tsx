@@ -56,7 +56,7 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-center">تسجيل الدخول</CardTitle>
+          <CardTitle className="text-center">Sign in</CardTitle>
         </CardHeader>
 
         <CardContent>
@@ -64,7 +64,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="user">اسم المستخدم</Label>
+              <Label htmlFor="user">User name</Label>
               <Input
                 id="user"
                 value={user}
@@ -75,7 +75,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <Label htmlFor="password">كلمة المرور</Label>
+              <Label htmlFor="password">Pass word</Label>
               <Input
                 id="password"
                 type="password"
@@ -88,7 +88,7 @@ export default function LoginPage() {
 
             <Button type="submit" className="w-full flex items-center justify-center gap-2">
               <FaSignInAlt className="w-5 h-5" />
-              تسجيل الدخول
+              Sign in
             </Button>
 
             <Button
@@ -98,7 +98,7 @@ export default function LoginPage() {
             >
               <Link href="/">
                 <FaHome className="w-5 h-5" />
-                العودة للرئيسية
+                Home
               </Link>
             </Button>
           </form>
