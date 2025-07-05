@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Chat from "@/models/Chat";
 
+// Define context type inline — no special import needed
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } } // ✅ CORRECT
+  context: { params: { id: string } }
 ) {
-  const { id } = context.params; // ✅ Correct destructuring
+  const { id } = context.params;
 
   if (!id || typeof id !== "string") {
     return NextResponse.json(
