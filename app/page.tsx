@@ -1,103 +1,118 @@
-import Image from "next/image";
+'use client'
+
+import ContentSection from "@/components/mainpagecomp/ContentSection";
+import CarouselSlider from "@/components/mainpagecomp/CarouselSlider";
+import ScrollToggleButton from "@/components/mainpagecomp/ScrollToggleButton";
+
+import Link from "next/link";
+import { FaSignInAlt, FaFacebookF, FaWhatsapp, FaUserShield, FaSignOutAlt } from "react-icons/fa";
+import { useSession, signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { data: session } = useSession();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <>
+      <div className="container mx-auto px-4 py-6">
+        <header className="text-center mb-1">
+<p
+  id="adress"
+  className="custom-font text-xl sm:text-2xl md:text-3xl font-bold break-words"
+>
+  A Textual Analysis and Virtual Reality based Program to Enhance Faculty of Science Students&rsquo; EFL Communicative Performance, Meta Linguistic Awareness and Academic Self-efficacy
+</p>
+
+
+          <ScrollToggleButton />
+
+          <div className="w-full flex justify-between items-center mt-4">
+            {/* Left-side: Social Buttons */}
+            <div className="flex space-x-2">
+              {/* Facebook */}
+              <Button
+                asChild
+                variant="outline"
+                size="icon"
+                className="rounded-full border-blue-600 text-blue-600 hover:bg-blue-50 w-10 h-10"
+              >
+                <a
+                  href="https://www.facebook.com/yourpage"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaFacebookF className="w-5 h-5" />
+                </a>
+              </Button>
+
+              {/* WhatsApp */}
+              <Button
+                asChild
+                variant="outline"
+                size="icon"
+                className="rounded-full border-green-600 text-green-600 hover:bg-green-50 w-10 h-10"
+              >
+                <a
+                  href="https://wa.me/1234567890"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaWhatsapp className="w-5 h-5" />
+                </a>
+              </Button>
+            </div>
+
+            {/* Right-side: Session-dependent Buttons */}
+            <div className="flex items-center gap-2">
+              {!session ? (
+                // إذا لم يكن مسجل دخول: زر تسجيل الدخول
+                <Button
+                  asChild
+                  variant="outline"
+                  className="text-green-600 border-green-600 hover:bg-green-50 px-6 py-2 text-sm sm:text-base"
+                >
+                  <Link href="/login" className="flex items-center gap-2">
+                    <FaSignInAlt className="w-5 h-5 sm:w-6 sm:h-6" />
+                    <span>تسجيل الدخول</span>
+                  </Link>
+                </Button>
+              ) : (
+                <>
+                  {/* زر لوحة المشرف أو الملف الشخصي */}
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="text-blue-600 border-blue-600 hover:bg-blue-50 px-6 py-2 text-sm sm:text-base"
+                  >
+                    <Link href={session.user.groupid === 10 ? "/admin" : "/content"}>
+                      <div className="flex items-center gap-2">
+                        <FaUserShield className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span>{session.user.groupid === 10 ? "Admin" : "User"}</span>
+                      </div>
+                    </Link>
+                  </Button>
+
+                  {/* زر تسجيل الخروج */}
+                  <Button
+                    onClick={() => signOut()}
+                    variant="outline"
+                    className="text-red-600 border-red-600 hover:bg-red-50 px-4 py-2 text-sm sm:text-base"
+                  >
+                    <FaSignOutAlt className="w-5 h-5 sm:w-6 sm:h-6 mr-1" />
+                    <span>Sign out</span>
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <div className="mt-1">
+          <CarouselSlider />
+          <ContentSection />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 }
