@@ -1,28 +1,51 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Record from "@/models/Record";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+// GET request
+export async function GET(request: NextRequest) {
+  const id = request.nextUrl.pathname.split("/").pop();
+
+  if (!id) {
+    return NextResponse.json({ error: "Missing ID" }, { status: 400 });
+  }
+
   await dbConnect();
-  const rec = await Record.findById(params.id).lean();
+  const rec = await Record.findById(id).lean();
   if (!rec) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+
   return NextResponse.json(rec);
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+// PUT request
+export async function PUT(request: NextRequest) {
+  const id = request.nextUrl.pathname.split("/").pop();
+
+  if (!id) {
+    return NextResponse.json({ error: "Missing ID" }, { status: 400 });
+  }
+
   await dbConnect();
   const data = await request.json();
-  const updated = await Record.findByIdAndUpdate(params.id, data, { new: true });
+  const updated = await Record.findByIdAndUpdate(id, data, { new: true });
   if (!updated) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+
   return NextResponse.json(updated);
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+// DELETE request
+export async function DELETE(request: NextRequest) {
+  const id = request.nextUrl.pathname.split("/").pop();
+
+  if (!id) {
+    return NextResponse.json({ error: "Missing ID" }, { status: 400 });
+  }
+
   await dbConnect();
-  await Record.findByIdAndDelete(params.id);
+  await Record.findByIdAndDelete(id);
   return NextResponse.json({ message: "Deleted" });
 }
