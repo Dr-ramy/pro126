@@ -2,12 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Chat from "@/models/Chat";
 
-// Correct DELETE route handler for dynamic `[id]` in Next.js 14/15
+// ✅ Use RouteHandlerContext for correct typing
+interface RouteHandlerContext {
+  params: {
+    id: string;
+  };
+}
+
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Record<string, string> }
+  context: RouteHandlerContext
 ) {
-  const id = params.id;
+  const { id } = context.params;
 
   if (!id || typeof id !== "string") {
     return NextResponse.json(
