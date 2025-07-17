@@ -2,7 +2,7 @@
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import VideoGallery from "@/components/content/mainitems/MainVideo";
+import VideoGallery from "@/components/content/maintenance/MainVideo";
 import Header from "@/components/layoutcomp/Header";
 
 export default async function ContentPage() {
